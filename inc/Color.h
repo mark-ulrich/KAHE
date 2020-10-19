@@ -1,7 +1,7 @@
 #ifndef __COLOR_H__
 #define __COLOR_H__
 
-#include "Util/Math.h"
+#include <SDL.h>
 
 class Color
 {
@@ -13,25 +13,26 @@ class Color
   void Normalize();
 
 public:
+  Color()
+    : r(0.0f)
+    , b(0.0f)
+    , g(0.0f)
+    , a(0.0f){};
   Color(float r, float g, float b, float a);
+
+  void Set(float r, float g, float b, float a);
+  void Red(float r);
+  void Green(float g);
+  void Blue(float b);
+  void Alpha(float a);
+
+  float Red() { return r; }
+  float Green() { return g; }
+  float Blue() { return b; }
+  float Alpha() { return a; }
+
+  // TODO: This is poor design
+  SDL_Color* ConvertToSDLColor(SDL_Color* sdlColor);
 };
-
-void
-Color::Normalize()
-{
-  Util::Math::Clampf(r, 0.0f, 1.0f);
-  Util::Math::Clampf(g, 0.0f, 1.0f);
-  Util::Math::Clampf(b, 0.0f, 1.0f);
-  Util::Math::Clampf(a, 0.0f, 1.0f);
-}
-
-Color::Color(float r, float g, float b, float a)
-  : r(r)
-  , g(g)
-  , b(b)
-  , a(a)
-{
-  Normalize();
-}
 
 #endif // __COLOR_H__

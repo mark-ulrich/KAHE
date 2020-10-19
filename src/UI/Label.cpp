@@ -26,8 +26,6 @@ Label::SetText(KString const& text)
 void
 Label::Render()
 {
-  SDL_Renderer* renderer = uiManager->GetDisplay().GetRenderer();
-
   SDL_Rect destRect;
   destRect.x = 0;
   destRect.y = 0;
@@ -54,13 +52,13 @@ Label::UpdateTexture()
 {
   SDL_assert(font);
 
-  SDL_Color color;
-  color.r = 0xff;
-  color.g = 0x00;
-  color.b = 0x00;
-  color.a = 0x00;
+  // TODO: Testing color
+  textColor.Set(1.0f, 0.0f, 0.0f, 0.0f);
+  SDL_Color sdlColor;
+  textColor.ConvertToSDLColor(&sdlColor);
 
-  SDL_Surface* labelSurface = TTF_RenderText_Solid(font, text.CString(), color);
+  SDL_Surface* labelSurface =
+    TTF_RenderText_Solid(font, text.CString(), sdlColor);
   SDL_assert(labelSurface);
   SDL_assert(uiManager != nullptr);
   SDL_Texture* labelTexture = SDL_CreateTextureFromSurface(

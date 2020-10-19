@@ -3,7 +3,10 @@
 
 #include <SDL.h>
 
+#include "Renderer.h"
 #include "Types.h"
+
+class Renderer;
 
 class Display
 {
@@ -11,15 +14,11 @@ class Display
   static const U32 DefaultHeight;
 
   SDL_Window* sdlWindow;
-  SDL_Renderer* sdlRenderer;
+  Renderer* renderer;
 
 public:
   Display();
   ~Display();
-
-  void Render();
-
-  SDL_Renderer* GetRenderer() { return sdlRenderer; }
 };
 
 #endif // __DISPLAY_H__

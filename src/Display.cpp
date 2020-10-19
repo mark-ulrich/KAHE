@@ -29,28 +29,21 @@ Display::Display()
   }
 
   // Create renderer
-  sdlRenderer = SDL_CreateRenderer(sdlWindow, -1, SDL_RENDERER_ACCELERATED);
+  renderer = new Renderer(sdlWindow);
 
-  if (!sdlRenderer)
-  {
-    FATAL("SDL_CreateRenderer", NULL);
-  }
-
-  TextureLoader::SetRenderer(sdlRenderer);
+  // TextureLoader::SetRenderer(sdlRenderer);
 
   // Set default background color
-  SDL_SetRenderDrawColor(sdlRenderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+  // SDL_SetRenderDrawColor(sdlRenderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
 }
 
 Display::~Display()
 {
-  SDL_DestroyRenderer(sdlRenderer);
   SDL_DestroyWindow(sdlWindow);
 }
 
 void
 Display::Render()
 {
-  SDL_RenderClear(sdlRenderer);
-  SDL_RenderPresent(sdlRenderer);
+  renderer->Render();
 }

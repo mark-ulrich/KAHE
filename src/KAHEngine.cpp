@@ -20,7 +20,6 @@ KAHEngine::~KAHEngine()
   SDL_Quit();
 }
 
-#include <stdio.h>
 void
 TestFunc()
 {
