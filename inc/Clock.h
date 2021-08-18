@@ -1,24 +1,24 @@
 #ifndef __CLOCK_H__
 #define __CLOCK_H__
 
-#include "Time.h"
+#include "KTime.h"
 
 class Clock
 {
-  Time beginTime;
-  Time pauseBeginTime;
-  Time totalPausedTime;
+  KTime beginTime;
+  KTime pauseBeginTime;
+  KTime totalPausedTime;
 
   bool isPaused;
 
 public:
   Clock();
 
-  Time Reset();
+  KTime Reset();
   void Start();
-  Time Pause();
+  KTime Pause();
 
-  Time Elapsed();
+  KTime Elapsed();
 };
 
 #endif // __CLOCK_H__

@@ -5,7 +5,7 @@
 static int
 AlarmThread(void* data);
 
-Alarm::Alarm(Time duration, int loopCount, AlarmCallback callback)
+Alarm::Alarm(KTime duration, int loopCount, AlarmCallback callback)
 {
   this->duration = duration;
   this->loopCount = loopCount;

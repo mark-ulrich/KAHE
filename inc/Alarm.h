@@ -8,7 +8,7 @@
 #define __ALARM_H__
 
 #include "Clock.h"
-#include "Time.h"
+#include "KTime.h"
 
 typedef void (*AlarmCallback)(void);
 
@@ -17,7 +17,7 @@ class Alarm
 
   Clock clock;
   int loopCount;
-  Time duration;
+  KTime duration;
   AlarmCallback callback;
   SDL_Thread* thread;
 
@@ -27,11 +27,11 @@ private:
   friend static int AlarmThread(void* data);
 
 public:
-  Alarm(Time duration, AlarmCallback callback)
+  Alarm(KTime duration, AlarmCallback callback)
     : Alarm(duration, 0, callback)
   {}
 
-  Alarm(Time duration, int loopCount, AlarmCallback callback);
+  Alarm(KTime duration, int loopCount, AlarmCallback callback);
 
   // ~Alarm() { printf("ALARM DEAD"); }
 

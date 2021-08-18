@@ -3,22 +3,22 @@
 
 Clock::Clock()
 {
-  totalPausedTime = Time::FromTicks(0);
-  pauseBeginTime = Time::FromTicks(0);
+  totalPausedTime = KTime::FromTicks(0);
+  pauseBeginTime = KTime::FromTicks(0);
   isPaused = true;
 
   Reset();
 }
 
-Time
+KTime
 Clock::Reset()
 {
-  Time elapsedTime = Elapsed();
-  beginTime = Time::Now();
+  KTime elapsedTime = Elapsed();
+  beginTime = KTime::Now();
   // Prevent overflow bug
   if (isPaused)
     pauseBeginTime = beginTime;
-  totalPausedTime = Time::FromTicks(0);
+  totalPausedTime = KTime::FromTicks(0);
   return elapsedTime;
 }
 
@@ -28,24 +28,24 @@ Clock::Start()
   if (!isPaused)
     return;
 
-  totalPausedTime += Time::Now() - pauseBeginTime;
-  pauseBeginTime = Time::FromTicks(0);
+  totalPausedTime += KTime::Now() - pauseBeginTime;
+  pauseBeginTime = KTime::FromTicks(0);
   isPaused = false;
 }
 
-Time
+KTime
 Clock::Pause()
 {
   if (isPaused)
     return Elapsed();
 
   isPaused = true;
-  pauseBeginTime = Time::Now();
+  pauseBeginTime = KTime::Now();
   return Elapsed();
 }
 
 const float MaxPauseSeconds = 60.0f * 60.0f * 24.0f * 365.0f;
-Time
+KTime
 Clock::Elapsed()
 {
   // printf("\nBeginTime: %f\n", beginTime.Seconds());
@@ -53,11 +53,11 @@ Clock::Elapsed()
   // printf("TotalPausedTime: %f\n", totalPausedTime.Seconds());
   if (isPaused)
   {
-    totalPausedTime += Time::Now();
+    totalPausedTime += KTime::Now();
     totalPausedTime -= pauseBeginTime;
   }
   // printf("TotalPausedTime: %f\n", totalPausedTime.Seconds());
-  Time elapsedTime = Time::Now();
+  KTime elapsedTime = KTime::Now();
   // printf("ElapsedTime: %f\n", elapsedTime.Seconds());
   elapsedTime -= beginTime;
   // printf("ElapsedTime: %f\n", elapsedTime.Seconds());
@@ -65,7 +65,7 @@ Clock::Elapsed()
   // printf("ElapsedTime: %f\n", elapsedTime.Seconds());
   // HACK: Fixes overflow bug
   if (elapsedTime.ticks & 0x8000000000000000)
-    elapsedTime = Time::FromTicks(0);
+    elapsedTime = KTime::FromTicks(0);
   // printf("ElapsedTime: %f\n", elapsedTime.Seconds());
 
   return elapsedTime;

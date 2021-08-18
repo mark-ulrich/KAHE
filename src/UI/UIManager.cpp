@@ -38,8 +38,7 @@ UIManager::LoadFont(KString const& name,
 void
 UIManager::LoadDefaultFont()
 {
-  fontTable["default"] =
-    new Font("g:\\kahe\\data\\fonts\\Roboto-Regular.ttf", 36);
+  fontTable["default"] = new Font("data\\fonts\\Roboto-Regular.ttf", 36);
 }
 
 Font*
