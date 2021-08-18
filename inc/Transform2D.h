@@ -15,8 +15,9 @@ public:
   void SetPosition(Vec2f const& position);
   void SetPosition(float x, float y);
 
-  void SetRotation(float angle);
-  void AddRotation(float angle);
+  void Rotation(float angle);
+  void RotationAdd(float angle);
+  float Rotation() const;
 };
 
 #endif // __TRANSFORM2D_H__

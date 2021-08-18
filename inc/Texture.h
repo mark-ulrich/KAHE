@@ -3,10 +3,14 @@
 
 #include <SDL.h>
 
+#include "Renderer.h"
+
 using ImplTextureType = SDL_Texture*;
 
 class Texture
 {
+  friend class Renderer;
+
   ImplTextureType texture;
 
 public:

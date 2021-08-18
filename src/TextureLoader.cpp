@@ -8,10 +8,10 @@
 
 extern KAHEngine* kahe;
 
-SDL_Renderer* TextureLoader::renderer = nullptr;
+Renderer* TextureLoader::renderer = nullptr;
 
 void
-TextureLoader::SetRenderer(SDL_Renderer* renderer)
+TextureLoader::SetRenderer(Renderer* renderer)
 {
   TextureLoader::renderer = renderer;
 }
@@ -29,7 +29,7 @@ TextureLoader::Load(KString const& path)
   SDL_Surface* surface = IMG_Load(absolutePath.CString());
   if (surface)
   {
-    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    texture = SDL_CreateTextureFromSurface(renderer->GetSDLRenderer(), surface);
     SDL_FreeSurface(surface);
   } else
   {

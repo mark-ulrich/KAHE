@@ -1,18 +1,16 @@
+#include "UI\Label.h"
+#include "KAHEngine.h"
+
 #include <SDL_ttf.h>
 
-#include "KAHEngine.h"
-#include "UI\Label.h"
+extern KAHEngine* kahe;
 
 namespace UI {
 
-Label::Label(UIManager* uiManager)
-{
-  this->uiManager = uiManager;
-  font = TTF_OpenFont("d:\\git\\kahe\\data\\fonts\\Roboto-Medium.ttf", 36);
-}
-
 Label::Label(UIManager* uiManager, KString const& text)
 {
+  this->uiManager = uiManager;
+  font = uiManager->GetDefaultFont();
   SetText(text);
 }
 
@@ -24,20 +22,17 @@ Label::SetText(KString const& text)
 }
 
 void
-Label::Render()
+Label::Render(Renderer& renderer)
 {
-  SDL_Rect destRect;
-  destRect.x = 0;
-  destRect.y = 0;
+  SDL_Rect dstRect = {};
   SDL_QueryTexture(
-    texture.GetTexturePointer(), NULL, NULL, &destRect.w, &destRect.h);
-
-  SDL_RenderCopyEx(renderer,
+    texture.GetTexturePointer(), NULL, NULL, &dstRect.w, &dstRect.h);
+  SDL_RenderCopyEx(renderer.GetSDLRenderer(),
                    texture.GetTexturePointer(),
                    NULL,
-                   &destRect,
-                   0.0,
-                   NULL, // origin
+                   &dstRect,
+                   transform.Rotation(),
+                   NULL,
                    SDL_FLIP_NONE);
 }
 
@@ -48,23 +43,37 @@ Label::SetPosition(Vec2f const& position)
 }
 
 void
+Label::SetFont(Font* font)
+{
+  ASSERT(font);
+  this->font = font;
+}
+
+void
 Label::UpdateTexture()
 {
-  SDL_assert(font);
+  if (text.Length() == 0)
+    return;
+  if (!font)
+    return;
 
   // TODO: Testing color
   textColor.Set(1.0f, 0.0f, 0.0f, 0.0f);
   SDL_Color sdlColor;
   textColor.ConvertToSDLColor(&sdlColor);
 
+  TTF_Font* sdlFont = font->GetTTFFont();
   SDL_Surface* labelSurface =
-    TTF_RenderText_Solid(font, text.CString(), sdlColor);
-  SDL_assert(labelSurface);
-  SDL_assert(uiManager != nullptr);
+    TTF_RenderText_Solid(sdlFont, text.CString(), sdlColor);
+  if (!labelSurface)
+  {
+  }
+  // ASSERT(labelSurface);
+  ASSERT(uiManager != nullptr);
   SDL_Texture* labelTexture = SDL_CreateTextureFromSurface(
-    uiManager->GetDisplay().GetRenderer(), labelSurface);
+    kahe->Display().Renderer().GetSDLRenderer(), labelSurface);
 
-  SDL_assert(labelTexture);
+  ASSERT(labelTexture);
   SDL_FreeSurface(labelSurface);
 
   SDL_DestroyTexture(texture.GetTexturePointer());

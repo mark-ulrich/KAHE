@@ -1,9 +1,10 @@
 #ifndef __WIDGET_H__
 #define __WIDGET_H__
 
+#include "Renderer.h"
 #include "Texture.h"
 #include "Transform2D.h"
-#include "UI/UIManager.h"
+
 
 namespace UI {
 
@@ -29,13 +30,14 @@ public:
     // have a default constructor; however, annoying
     // compiler errors have persuaded me to add one
     // for the present time. This should be fixed/
-    // trobleshot later
+    // troubleshot later
   }
+
   Widget(UIManager* uiManager)
     : uiManager(uiManager)
   {}
 
-  virtual void Render() = 0;
+  virtual void Render(Renderer& renderer) = 0;
 };
 
 } // namespace UI

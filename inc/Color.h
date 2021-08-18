@@ -1,6 +1,8 @@
 #ifndef __COLOR_H__
 #define __COLOR_H__
 
+#include "KString.h"
+
 #include <SDL.h>
 
 class Color
@@ -32,7 +34,11 @@ public:
   float Alpha() { return a; }
 
   // TODO: This is poor design
-  SDL_Color* ConvertToSDLColor(SDL_Color* sdlColor);
+  SDL_Color* ConvertToSDLColor(SDL_Color* sdlColor) const;
+
+  static Color FromHex(KString const& hexString);
+
+  static Color Black;
 };
 
 #endif // __COLOR_H__

@@ -3,6 +3,7 @@
 
 #include <SDL.h>
 
+#include "Color.h"
 #include "Renderer.h"
 #include "Types.h"
 
@@ -19,6 +20,10 @@ class Display
 public:
   Display();
   ~Display();
+
+  Renderer& Renderer() { return *renderer; }
+
+  void Present();
 };
 
 #endif // __DISPLAY_H__

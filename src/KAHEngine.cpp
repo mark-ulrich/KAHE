@@ -21,19 +21,8 @@ KAHEngine::~KAHEngine()
 }
 
 void
-TestFunc()
-{
-  static U32 callCount = 0;
-  // printf("TestFunc [%d]\n", ++callCount);
-}
-
-void
 KAHEngine::Run()
 {
-  Clock clock;
-
-  // Alarm alarm(Time::FromSeconds(1.0f), 10, TestFunc);
-
   isRunning = true;
   while (isRunning)
   {
@@ -45,12 +34,16 @@ KAHEngine::Run()
         isRunning = false;
         break;
       }
+      if (ev.type == SDL_KEYUP && ev.key.keysym.sym == SDLK_ESCAPE)
+      {
+        isRunning = false;
+        break;
+      }
     }
 
-    uiManager->Render();
-    display->Render();
-
-    // printf("Time: %.2fs\n", clock.Elapsed().Seconds());
+    Renderer& renderer = display->Renderer();
+    uiManager->Render(renderer);
+    display->Present();
   }
 }
 
@@ -63,13 +56,15 @@ KAHEngine::SetDataDirectory(KString const& path)
 void
 KAHEngine::InitializeDisplay()
 {
-  display = new Display;
+  display = new ::Display;
 }
 
 void
 KAHEngine::InitializeUI()
 {
-  uiManager = new UI::UIManager(display);
+  ASSERT(display);
+  uiManager = new UI::UIManager(*display);
   UI::Label* label = uiManager->CreateLabel();
+  label->SetFont(uiManager->GetFont("default"));
   label->SetText("This is only a test!");
 }

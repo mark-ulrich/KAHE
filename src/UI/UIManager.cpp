@@ -1,8 +1,6 @@
 #include "UI/UIManager.h"
 #include "UI/Label.h"
 
-#include <stdio.h>
-
 namespace UI {
 
 void
@@ -11,24 +9,64 @@ UIManager::ShowCursor(bool show)
   isCursorVisible = show;
 }
 
-Label*
-UIManager::CreateLabel()
+LabelPtr
+UIManager::CreateLabel(KString const& text)
 {
-  Label* label = new Label(this);
-  widgets.Append(label);
+  LabelPtr label = new Label(this, text);
+  widgets.push_back(label);
   return label;
 }
 
-void
-UIManager::Render()
+LabelPtr
+UIManager::CreateLabel()
 {
-  static SDL_Renderer* renderer = display->GetRenderer();
+  return UIManager::CreateLabel("");
+}
 
-  U32 count = 0;
+void
+UIManager::LoadFont(KString const& name,
+                    KString const& path,
+                    Font::PointSizeType size)
+{
+  if (fontTable.find(name) != fontTable.end())
+  {
+    return;
+  }
+  fontTable[name] = new Font(path, size);
+}
+
+void
+UIManager::LoadDefaultFont()
+{
+  fontTable["default"] =
+    new Font("g:\\kahe\\data\\fonts\\Roboto-Regular.ttf", 36);
+}
+
+Font*
+UIManager::GetFont(KString const& name)
+{
+  auto& iter = fontTable.find(name);
+  if (iter == fontTable.end())
+  {
+    ASSERT(false);
+    return nullptr;
+  }
+  return iter->second;
+}
+
+Font*
+UIManager::GetDefaultFont()
+{
+  ASSERT(fontTable.empty() == false);
+  return fontTable.begin()->second;
+}
+
+void
+UIManager::Render(Renderer& renderer)
+{
   for (auto widget : widgets)
   {
-    // printf("Widget: %02d\n", count++);
-    widget->Render();
+    widget->Render(renderer);
   }
 }
 

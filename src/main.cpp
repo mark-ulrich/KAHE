@@ -1,18 +1,24 @@
-#include <SDL.h>
-
 #include "Common.h"
 #include "KAHEngine.h"
+#include "KString.h"
 #include "Util.h"
 
+#include <SDL.h>
+
+#include <iostream>
+
+#define USE_SDL
+
 #ifdef DEBUG
+#ifdef USE_SDL
 #undef SDL_ASSERT_LEVEL
 #define SDL_ASSERT_LEVEL 3
-#endif
+#endif // USE_SDL
+#endif // DEBUG
 
-KAHEngine* kahe;
+// Global engine object
+inline KAHEngine* kahe;
 
-#include "KString.h"
-#include <stdio.h>
 int
 main(int argc, char* argv[])
 {

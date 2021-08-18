@@ -5,13 +5,14 @@
 
 #include "Display.h"
 #include "KString.h"
+#include "Renderer.h"
 #include "UI/UIManager.h"
 
 #define MAX_PATH 1024
 
 class KAHEngine
 {
-  Display* display;
+  ::Display* display;
   UI::UIManager* uiManager;
 
   bool isRunning;
@@ -29,7 +30,7 @@ public:
   void InitializeDisplay();
   void InitializeUI();
 
-  Display* GetDisplay() { return display; }
+  ::Display& Display() { return *display; }
 };
 
 #endif // __KAHENGINE_H__

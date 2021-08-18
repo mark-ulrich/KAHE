@@ -16,13 +16,19 @@ Transform2D::SetPosition(float x, float y)
 }
 
 void
-Transform2D::SetRotation(float angle)
+Transform2D::Rotation(float angle)
 {
   rotation = angle;
 }
 
 void
-Transform2D::AddRotation(float angle)
+Transform2D::RotationAdd(float angle)
 {
   rotation += angle;
+}
+
+float
+Transform2D::Rotation() const
+{
+  return rotation;
 }

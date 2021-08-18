@@ -4,6 +4,8 @@
 #include "Memory.h"
 #include "Util/Math.h"
 
+Color Color::Black(0.0f, 0.0f, 0.0f, 0.0f);
+
 void
 Color::Normalize()
 {
@@ -14,7 +16,7 @@ Color::Normalize()
 }
 
 SDL_Color*
-Color::ConvertToSDLColor(SDL_Color* sdlColor = nullptr)
+Color::ConvertToSDLColor(SDL_Color* sdlColor = nullptr) const
 {
   /*
     Note: This method can work in two ways, mostly because it seems
@@ -63,6 +65,40 @@ Color::ConvertToSDLColor(SDL_Color* sdlColor = nullptr)
   sdlColor->b = b * 0xff;
   sdlColor->a = a * 0xff;
   return sdlColor;
+}
+
+Color
+Color::FromHex(KString const& hexString)
+{
+  if (hexString[0] != '#')
+  {
+    return Color::Black;
+  }
+  if (hexString.Length() != 7 || hexString.Length() != 4)
+  {
+    return Color::Black;
+  }
+  // for (auto c : hexString)
+  // {
+  //   if ()
+  // }
+
+  float r, g, b;
+  if (hexString.Length() == 6)
+  {
+    r = static_cast<float>(
+          ::strtoul(hexString.SubString(1, 2).CString(), NULL, 0x10)) /
+        static_cast<float>(0xff);
+    g = static_cast<float>(
+          ::strtoul(hexString.SubString(3, 2).CString(), NULL, 0x10)) /
+        static_cast<float>(0xff);
+    b = static_cast<float>(
+          ::strtoul(hexString.SubString(5, 2).CString(), NULL, 0x10)) /
+        static_cast<float>(0xff);
+  } else
+  {}
+
+  return Color(r, g, b, 0.0f);
 }
 
 Color::Color(float r, float g, float b, float a)

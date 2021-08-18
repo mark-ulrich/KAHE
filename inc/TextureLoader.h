@@ -4,14 +4,15 @@
 #include <SDL.h>
 
 #include "KString.h"
+#include "Renderer.h"
 #include "Texture.h"
 
 class TextureLoader
 {
-  static SDL_Renderer* renderer;
+  static Renderer* renderer;
 
 public:
-  static void SetRenderer(SDL_Renderer* renderer);
+  static void SetRenderer(Renderer* renderer);
 
   static Texture* Load(KString const& path);
 };

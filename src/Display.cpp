@@ -28,22 +28,20 @@ Display::Display()
     FATAL("SDL_CreateWindow", NULL);
   }
 
-  // Create renderer
-  renderer = new Renderer(sdlWindow);
+  renderer = new ::Renderer(sdlWindow);
+  renderer->SetDrawColor(Color(0.0f, 0.0f, 0.0f, 0.0f));
 
-  // TextureLoader::SetRenderer(sdlRenderer);
-
-  // Set default background color
-  // SDL_SetRenderDrawColor(sdlRenderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+  TextureLoader::SetRenderer(renderer);
 }
 
 Display::~Display()
 {
+  SAFE_DELETE(renderer);
   SDL_DestroyWindow(sdlWindow);
 }
 
 void
-Display::Render()
+Display::Present()
 {
   renderer->Render();
 }
