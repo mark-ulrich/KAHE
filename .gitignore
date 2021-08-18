@@ -1,5 +1,7 @@
+*~
 .vscode
 3rd_party
 build
 *.code-workspace
 *.pdb
+data\textures\earth.png
